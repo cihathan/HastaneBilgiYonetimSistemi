@@ -23,5 +23,28 @@ namespace HastaneBilgiYonetimSistemi
         {
 
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int sifre = int.Parse(textBox2.Text);
+            int id = int.Parse(textBox1.Text);
+         
+            SqlCommand command0 = new SqlCommand();
+
+            command0.CommandText = String.Format($"select*from tbl_Personel where sifre like '%{sifre}%' and Personel_id like '%{id}%'");
+            command0.Connection = hastane;
+            hastane.Open();
+            int sonuc = command0.ExecuteNonQuery();
+            hastane.Close();
+            if (sonuc > 0)
+            {
+                MessageBox.Show("var");
+           
+            }
+            else
+            {
+                MessageBox.Show("yok");
+            }
+            //hastane.Close();
+        }
     }
 }
