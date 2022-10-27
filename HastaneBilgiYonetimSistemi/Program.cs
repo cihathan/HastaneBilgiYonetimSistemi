@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace HastaneBilgiYonetimSistemi
 {
-    internal static class Program
+    internal static class Program 
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,7 @@ namespace HastaneBilgiYonetimSistemi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Giris_Ekranı());
+            Application.Run(new Giris_Ekrani());
         }
     }
 }
