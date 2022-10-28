@@ -44,6 +44,7 @@ namespace HastaneBilgiYonetimSistemi
                 if (dt.Rows.Count > 0)
                 {
                     Doktor1 doktor = new Doktor1();
+                    Sekreter_paneli sekreter_Paneli = new Sekreter_paneli();
                     for (int i = 1; i <= 3; i++)
                     {
                         SqlCommand komut1 = new SqlCommand($"select * from tbl_Personel where yetki={i} and Personel_id='{id}'", bgl.bagla());
@@ -60,7 +61,10 @@ namespace HastaneBilgiYonetimSistemi
                                     doktor.kul_id = id;
                                     doktor.Visible = true;
                                     this.Hide();  break;
-                                case 2: MessageBox.Show("Yetki 2"); break;
+                                case 2:
+                                    sekreter_Paneli.Kul_id = id;
+                                    sekreter_Paneli.Visible = true;
+                                    this.Hide();  break;
                                 case 3: MessageBox.Show("Yetki 3"); break;
                                 default:
                                     MessageBox.Show("Giriş Başarılı");
