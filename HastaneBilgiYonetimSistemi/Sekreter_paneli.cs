@@ -17,6 +17,8 @@ namespace HastaneBilgiYonetimSistemi
     public partial class Sekreter_paneli : Form
     {
         public int Kul_id;
+        int doktor_id;
+
         public Sekreter_paneli()
         {
             InitializeComponent();
@@ -37,12 +39,11 @@ namespace HastaneBilgiYonetimSistemi
         private void button1_Click(object sender, EventArgs e)
         {
             //Tcye göre hasta kontrol edıldı yoksa eklenmesı ıstendı
-
             try
             {
                 if (maskedTextBox1.Text != "")
                 {
-                  
+
 
                     bgl.bagla();
                     SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
@@ -54,17 +55,17 @@ namespace HastaneBilgiYonetimSistemi
                         textBox2.Text = oku[1].ToString();
                         textBox4.Text = oku[2].ToString();
                         comboBox1.Text = oku[3].ToString();
-                        maskedTextBox3.Text=oku[5].ToString();
+                        maskedTextBox3.Text = oku[5].ToString();
                         maskedTextBox2.Text = oku[6].ToString();
-                        comboBox4.Text=oku[7].ToString();
-                        hasta_id=int.Parse(oku[0].ToString());
+                        comboBox4.Text = oku[7].ToString();
+                        hasta_id = int.Parse(oku[0].ToString());
 
                         panel1.Visible = true;
 
                     }
                     else
                     {
-                        MessageBox.Show("Bu kriterde bir hasta bulunamadı. Lütfen kayıt yapınız.");
+
 
                     }
                     bgl.bagla().Close();
@@ -73,11 +74,12 @@ namespace HastaneBilgiYonetimSistemi
                     MessageBox.Show("Önce Hasta TC'si giriniz.");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
 
             }
+
 
         }
 
@@ -130,16 +132,6 @@ namespace HastaneBilgiYonetimSistemi
 
         }
 
-        private void Sekreter_paneli_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox3_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
             //update tbl_Hasta set Ad='asa',Soyad='asd' where Tc=26056519915
@@ -155,17 +147,12 @@ namespace HastaneBilgiYonetimSistemi
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void comboBox2_TextChanged(object sender, EventArgs e)
         {
 
             comboBox3.Items.Clear();
             comboBox3.Text = "";
-           SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where P_Görev = '{comboBox2.SelectedItem.ToString()}'", bgl.bagla());
+           SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where P_Görev = '{comboBox2.SelectedItem}'", bgl.bagla());
           
             SqlDataReader dataReader;
 
@@ -178,9 +165,86 @@ namespace HastaneBilgiYonetimSistemi
             bgl.bagla().Close();
         }
 
-        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void comboBox3_TextChanged(object sender, EventArgs e)
         {
-           
+            bgl.bagla();
+            SqlCommand sorgulama = new SqlCommand($"select * from tbl_Personel where (P_Ad+' '+P_Soyad) = '{comboBox3.SelectedItem}'", bgl.bagla());
+            SqlDataReader oku = sorgulama.ExecuteReader();
+            if (oku.Read())
+            {
+                doktor_id = int.Parse(oku[0].ToString());
+            }
+            bgl.bagla().Close();
         }
+      
+        private void maskedTextBox4_TextChanged(object sender, EventArgs e)
+        {
+            comboBox5.Items.Clear();
+            comboBox5.Items.Add("08:00");
+            comboBox5.Items.Add("09:00");
+            comboBox5.Items.Add("10:00");
+            comboBox5.Items.Add("11:00");
+            comboBox5.Items.Add("13:00");
+            comboBox5.Items.Add("14:00");
+            comboBox5.Items.Add("15:00");
+            comboBox5.Items.Add("16:00");
+            SqlCommand sqlCommand1 = new SqlCommand($"select R_Saat from tbl_Randevular  where Doktor_id ={doktor_id} and  R_Gun='{maskedTextBox4.Text}'", bgl.bagla());
+            SqlDataReader rd;
+            bgl.bagla();
+            rd = sqlCommand1.ExecuteReader();
+            while (rd.Read())
+            {
+                comboBox5.Items.Remove(rd["R_Saat"]);
+            }
+            bgl.bagla().Close();
+        }
+
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                    if (maskedTextBox1.Text.Length>=11)
+                    {
+
+
+                        bgl.bagla();
+                        SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
+                        sorgulama.Parameters.AddWithValue("@tc", maskedTextBox1.Text);
+                        SqlDataReader oku = sorgulama.ExecuteReader();
+                        if (oku.Read())
+                        {
+
+                            textBox2.Text = oku[1].ToString();
+                            textBox4.Text = oku[2].ToString();
+                            comboBox1.Text = oku[3].ToString();
+                            maskedTextBox3.Text = oku[5].ToString();
+                            maskedTextBox2.Text = oku[6].ToString();
+                            comboBox4.Text = oku[7].ToString();
+                            hasta_id = int.Parse(oku[0].ToString());
+
+                            panel1.Visible = true;
+
+                        }
+                        else
+                        {
+
+                        MessageBox.Show("Kayıtlarda hasta bulunamadı");
+
+                    }
+                    bgl.bagla().Close();
+                    }
+                   
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+        }
+
+       
     }
 }
