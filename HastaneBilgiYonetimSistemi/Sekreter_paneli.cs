@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -80,10 +81,7 @@ namespace HastaneBilgiYonetimSistemi
 
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -160,6 +158,29 @@ namespace HastaneBilgiYonetimSistemi
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void comboBox2_TextChanged(object sender, EventArgs e)
+        {
+
+            comboBox3.Items.Clear();
+            comboBox3.Text = "";
+           SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where P_Görev = '{comboBox2.SelectedItem.ToString()}'", bgl.bagla());
+          
+            SqlDataReader dataReader;
+
+            bgl.bagla();
+            dataReader = komut.ExecuteReader();
+            while (dataReader.Read())
+            {
+                comboBox3.Items.Add(dataReader["Ad Soyad"]);
+            }
+            bgl.bagla().Close();
+        }
+
+        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+           
         }
     }
 }
