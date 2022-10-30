@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -229,37 +230,50 @@ namespace HastaneBilgiYonetimSistemi
         {
             try
             {
-                
-                    if (maskedTextBox1.Text.Length>=11)
+
+                if (maskedTextBox1.Text.Length >= 11)
+                {
+
+
+                    bgl.bagla();
+                    SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
+                    sorgulama.Parameters.AddWithValue("@tc", maskedTextBox1.Text);
+                    SqlDataReader oku = sorgulama.ExecuteReader();
+                    if (oku.Read())
                     {
 
+                        textBox2.Text = oku[1].ToString();
+                        textBox4.Text = oku[2].ToString();
+                        comboBox1.Text = oku[3].ToString();
+                        maskedTextBox3.Text = oku[5].ToString();
+                        maskedTextBox2.Text = oku[6].ToString();
+                        comboBox4.Text = oku[7].ToString();
+                        hasta_id = int.Parse(oku[0].ToString());
 
-                        bgl.bagla();
-                        SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
-                        sorgulama.Parameters.AddWithValue("@tc", maskedTextBox1.Text);
-                        SqlDataReader oku = sorgulama.ExecuteReader();
-                        if (oku.Read())
-                        {
+                        panel1.Visible = true;
 
-                            textBox2.Text = oku[1].ToString();
-                            textBox4.Text = oku[2].ToString();
-                            comboBox1.Text = oku[3].ToString();
-                            maskedTextBox3.Text = oku[5].ToString();
-                            maskedTextBox2.Text = oku[6].ToString();
-                            comboBox4.Text = oku[7].ToString();
-                            hasta_id = int.Parse(oku[0].ToString());
-
-                            panel1.Visible = true;
-
-                        }
-                        else
-                        {
-
+                    }
+                
+               
+                    else
+                    {
                         MessageBox.Show("Kayıtlarda hasta bulunamadı");
+                    }
+                   
 
-                    }
-                    bgl.bagla().Close();
-                    }
+                }
+                else if (maskedTextBox1.Text.Length <= 11)
+                {
+                    textBox2.Clear();
+                    textBox4.Clear();
+                    comboBox1.Text = "";
+                    maskedTextBox3.Clear();
+                    maskedTextBox2.Clear();
+                    comboBox4.Text = "";
+
+                }
+                bgl.bagla().Close();
+                    
                    
 
                 
@@ -338,7 +352,7 @@ namespace HastaneBilgiYonetimSistemi
             {
                 if (oku.Read())
                 {
-                    label1.Text = (oku["Ad Soyad"]).ToString();
+                    label16.Text = (oku["Ad Soyad"]).ToString();
 
                 }
             }
