@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HastaneBilgiYonetimSistemi
 {
-   
-    public partial class Giris_Ekrani : Form 
+
+    public partial class Giris_Ekrani : Form
     {
         public int id;
         public Giris_Ekrani()
@@ -25,12 +26,14 @@ namespace HastaneBilgiYonetimSistemi
 
         private void Form1_Load(object sender, EventArgs e)
         {
-        
-            
+
+
         }
+        Muhasebe muhasebe = new Muhasebe();
+
         public void button1_Click(object sender, EventArgs e)
         {
-          
+
             try
             {
 
@@ -53,19 +56,25 @@ namespace HastaneBilgiYonetimSistemi
                         yetkiad.Fill(yetki);
                         if (yetki.Rows.Count > 0)
                         {
-                           
+
                             switch (i)
-                            {  
-                                case 1:MessageBox.Show("Giriş Başarılı");
+                            {
+                                case 1:
 
                                     doktor.kul_id = id;
                                     doktor.Visible = true;
-                                    this.Hide();  break;
+                                    this.Hide(); break;
                                 case 2:
                                     sekreter_Paneli.Kul_id = id;
                                     sekreter_Paneli.Visible = true;
-                                    this.Hide();  break;
-                                case 3: MessageBox.Show("Yetki 3"); break;
+                                    this.Hide(); break;
+                                case 3:
+                                    muhasebe.muhasebeid = id;
+                                    muhasebe.Visible = true;
+                                    this.Hide(); break;
+                                //case 4: muhasebe.muhasebeid = id;
+                                //muhasebe.Visible = true;
+                                //this.Hide(); break; //Yönetim giriş paneli
                                 default:
                                     MessageBox.Show("Giriş Başarılı");
                                     break;
@@ -87,9 +96,9 @@ namespace HastaneBilgiYonetimSistemi
                 MessageBox.Show(ex.Message);
             }
         }
-      
+
 
 
     }
-  
+
 }

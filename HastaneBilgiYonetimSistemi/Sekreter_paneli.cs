@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HastaneBilgiYonetimSistemi
@@ -197,6 +198,31 @@ namespace HastaneBilgiYonetimSistemi
                 comboBox5.Items.Remove(rd["R_Saat"]);
             }
             bgl.bagla().Close();
+            //Eğer hasta aynı gun ıcınde aynı doktora randevu almamıs ıse randevu alabılır.
+            //
+
+            if (maskedTextBox4.Text.Length>=9)
+            {
+                SqlCommand randevunvarmı = new SqlCommand($"select*from tbl_Randevular where Hasta_id={hasta_id} and Doktor_id={doktor_id} and R_Gun='{maskedTextBox4.Text}'", bgl.bagla());
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(randevunvarmı);
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    MessageBox.Show("Aynı Günde Randevu Var");
+                    button3.Enabled = false;
+                }
+                else
+                {
+                    button3.Enabled=true;
+                }
+                bgl.bagla().Close();
+
+             
+            }
+            
+           
         }
 
         private void maskedTextBox1_TextChanged(object sender, EventArgs e)
@@ -245,6 +271,78 @@ namespace HastaneBilgiYonetimSistemi
             }
         }
 
-       
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+          
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                label21.Text = maskedTextBox6.Text.ToString();
+                panel3.Visible = true;
+                panel2.Visible = false;
+            }
+            else
+            {
+                panel3.Visible = false;
+                panel2.Visible = true;
+            }
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (maskedTextBox8.TextLength>=16&& maskedTextBox7.TextLength >= 4&& maskedTextBox9.TextLength >= 3&&maskedTextBox10.Text!=string.Empty)
+            {
+               
+                panel3.Visible = false;
+                panel2.Visible = true;
+
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //insert into tbl_Hasta (Ad,Soyad,Cinsiyet,Tc,Doğum_Tarihi,Telefon,Ssk_Durum) Values 
+            bgl.bagla();
+            SqlCommand eklerandevu = new SqlCommand($"insert into tbl_Randevular (Hasta_id,Doktor_id,R_Saat,R_Gun,Sikayet,Ucret) values ({hasta_id},{doktor_id},'{comboBox5.Text}','{maskedTextBox4.Text}','{textBox1.Text}',{float.Parse(maskedTextBox6.Text)})",bgl.bagla());
+
+            int eklendı = eklerandevu.ExecuteNonQuery();
+            if (eklendı > 0)
+            {
+                MessageBox.Show("Hasta Eklendi");
+               
+
+            }
+            bgl.bagla().Close();
+
+        }
+
+        private void Sekreter_paneli_Load(object sender, EventArgs e)
+        {
+            
+            SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where Personel_id={Kul_id}", bgl.bagla());
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(komut);
+            da.Fill(dt);
+            SqlDataReader oku = komut.ExecuteReader();
+            {
+                if (oku.Read())
+                {
+                    label1.Text = (oku["Ad Soyad"]).ToString();
+
+                }
+            }
+            bgl.bagla().Close();
+        }
     }
 }

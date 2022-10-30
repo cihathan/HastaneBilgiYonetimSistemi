@@ -22,7 +22,7 @@ namespace HastaneBilgiYonetimSistemi
         {
             InitializeComponent();
         }
-
+        public int hastaid;
         public int randevuid;
         private void Doktor_Load(object sender, EventArgs e)
         {
@@ -51,13 +51,18 @@ namespace HastaneBilgiYonetimSistemi
         }
         private void goster()
         {
-            SqlCommand sqlData = new SqlCommand($"select r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} and R_Gun like'%{label2.Text.ToString()}%'", bgl.bagla());
+            string metin = dateTimePicker1.Value.ToString();
+            string yenimetin = metin.Replace('.', '-');
+            yenimetin = yenimetin.Remove(yenimetin.Length - 9, 9);
+            SqlCommand sqlData = new SqlCommand($"select h.Hasta_id,r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} and R_Gun like'%{yenimetin}%'", bgl.bagla());
             DataTable dataTable = new DataTable();
             SqlDataAdapter sd = new SqlDataAdapter(sqlData);
             sd.Fill(dataTable);
             sqlData.ExecuteNonQuery();
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["Randevu_id"].Visible = false;
+            dataGridView1.Columns["Hasta_id"].Visible = false;
+
 
             bgl.bagla().Close();
 
@@ -74,13 +79,30 @@ namespace HastaneBilgiYonetimSistemi
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
             randevuid = int.Parse(dataGridView1.CurrentRow.Cells["Randevu_id"].Value.ToString());
-
+            hastaid= int.Parse(dataGridView1.CurrentRow.Cells["Hasta_id"].Value.ToString());
             dataGridView1.Visible = false;
             panel1.Visible = true;
+
+            panel2guncelle();
+
+
+        }
+        void panel2guncelle()
+        {
+
+            SqlCommand sqlData = new SqlCommand($"select p.P_Ad+ ' '+ p.P_Soyad as 'Doktor Ad Soyad',ha.Ad+' '+ha.Soyad as 'Hasta Ad Soyad',ra.R_Gun as 'Randevu Tarihi',Acıklama from tbl_Receteler re  inner join tbl_Randevular ra on ra.Randevu_id=re.Randevu_id inner join tbl_Hasta ha on ha.Hasta_id=ra.Hasta_id inner join tbl_Personel p on p.Personel_id=Doktor_id where ha.Hasta_id={hastaid}", bgl.bagla());
+            DataTable dataTable = new DataTable();
+            SqlDataAdapter sd = new SqlDataAdapter(sqlData);
+            sd.Fill(dataTable);
+            sqlData.ExecuteNonQuery();
+            dataGridView2.DataSource = dataTable;
+
+            bgl.bagla().Close();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            
             //Reçete veya tahlil istemek için receteler tablosunu kullandık 
             // recetelere datagrıdvıevde çift tıklanan hastanın randevu ıdsı ve textboxa ırılecek deger alınıp aktarıldı
             SqlCommand command0 = new SqlCommand();
@@ -92,7 +114,7 @@ namespace HastaneBilgiYonetimSistemi
             if (eklendi > 0)
             {
                 MessageBox.Show("Eklendi");
-             
+                panel2guncelle();
             }
             else
             {
@@ -127,7 +149,7 @@ namespace HastaneBilgiYonetimSistemi
             if (eklendi > 0)
             {
                 MessageBox.Show("Guncellendi");
-
+                panel2guncelle();
             }
             else
             {
@@ -138,13 +160,14 @@ namespace HastaneBilgiYonetimSistemi
 
         private void button5_Click(object sender, EventArgs e)
         {
-            SqlCommand sqlData = new SqlCommand($"select r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} ", bgl.bagla());
+            SqlCommand sqlData = new SqlCommand($"select   r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} ", bgl.bagla());
             DataTable dataTable = new DataTable();
             SqlDataAdapter sd = new SqlDataAdapter(sqlData);
             sd.Fill(dataTable);
             sqlData.ExecuteNonQuery();
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["Randevu_id"].Visible = false;
+                  
 
             bgl.bagla().Close();
         }
@@ -152,6 +175,15 @@ namespace HastaneBilgiYonetimSistemi
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            goster();
+
+        
+          
+         
         }
     }
 }
