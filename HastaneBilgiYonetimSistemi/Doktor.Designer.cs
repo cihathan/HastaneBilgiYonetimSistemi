@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Doktor1));
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -55,9 +56,12 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 91);
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(9, 74);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(144, 67);
+            this.button1.Size = new System.Drawing.Size(108, 54);
             this.button1.TabIndex = 0;
             this.button1.Text = "Bugünki Rabdevular";
             this.button1.UseVisualStyleBackColor = true;
@@ -66,9 +70,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 38);
+            this.label1.Location = new System.Drawing.Point(30, 31);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "label1";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -77,20 +82,23 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(282, 91);
+            this.dataGridView1.Location = new System.Drawing.Point(212, 74);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(692, 496);
+            this.dataGridView1.Size = new System.Drawing.Size(519, 403);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.Visible = false;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(544, 31);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker1.Location = new System.Drawing.Point(764, 32);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePicker1.Size = new System.Drawing.Size(151, 20);
             this.dateTimePicker1.TabIndex = 5;
             this.dateTimePicker1.Value = new System.DateTime(2022, 10, 30, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
@@ -102,43 +110,53 @@
             this.reçeteYazToolStripMenuItem,
             this.tahlilİsteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(150, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(130, 48);
             // 
             // reçeteYazToolStripMenuItem
             // 
             this.reçeteYazToolStripMenuItem.Name = "reçeteYazToolStripMenuItem";
-            this.reçeteYazToolStripMenuItem.Size = new System.Drawing.Size(149, 24);
+            this.reçeteYazToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.reçeteYazToolStripMenuItem.Text = "Reçete Yaz";
             // 
             // tahlilİsteToolStripMenuItem
             // 
             this.tahlilİsteToolStripMenuItem.Name = "tahlilİsteToolStripMenuItem";
-            this.tahlilİsteToolStripMenuItem.Size = new System.Drawing.Size(149, 24);
+            this.tahlilİsteToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.tahlilİsteToolStripMenuItem.Text = "Tahlil İste";
             // 
             // textBox1
             // 
+            this.textBox1.Location = new System.Drawing.Point(20, 18);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Location = new System.Drawing.Point(12, 241);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(498, 198);
+            this.textBox1.Size = new System.Drawing.Size(374, 162);
             this.textBox1.TabIndex = 7;
             // 
             // button2
             // 
+            this.button2.BackColor = System.Drawing.SystemColors.Control;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(20, 192);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Location = new System.Drawing.Point(12, 455);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(144, 67);
+            this.button2.Size = new System.Drawing.Size(108, 54);
             this.button2.TabIndex = 8;
             this.button2.Text = "Ekle";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 244);
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(9, 198);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(144, 67);
+            this.button3.Size = new System.Drawing.Size(108, 54);
             this.button3.TabIndex = 9;
             this.button3.Text = "Tanı ve istem ";
             this.button3.UseVisualStyleBackColor = true;
@@ -146,33 +164,44 @@
             // 
             // button4
             // 
+            this.button4.BackColor = System.Drawing.SystemColors.Control;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(146, 192);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Location = new System.Drawing.Point(180, 455);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(144, 67);
+            this.button4.Size = new System.Drawing.Size(108, 54);
             this.button4.TabIndex = 10;
             this.button4.Text = "Güncelle";
-            this.button4.UseVisualStyleBackColor = true;
+            this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.dataGridView2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.button2);
-            this.panel1.Location = new System.Drawing.Point(282, 91);
+            this.panel1.Location = new System.Drawing.Point(212, 74);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(520, 285);
             this.panel1.Size = new System.Drawing.Size(693, 539);
             this.panel1.TabIndex = 11;
             this.panel1.Visible = false;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 164);
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(9, 133);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(144, 67);
+            this.button5.Size = new System.Drawing.Size(108, 54);
             this.button5.TabIndex = 12;
             this.button5.Text = "Tüm Randevular";
             this.button5.UseVisualStyleBackColor = true;
@@ -229,8 +258,11 @@
             // 
             // Doktor1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(740, 522);
             this.ClientSize = new System.Drawing.Size(987, 642);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button5);
