@@ -245,6 +245,9 @@ namespace HastaneBilgiYonetimSistemi
             }
         }
 
-       
+        private void Sekreter_paneli_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
