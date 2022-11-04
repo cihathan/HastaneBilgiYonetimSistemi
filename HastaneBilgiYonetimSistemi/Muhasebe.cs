@@ -21,8 +21,12 @@ namespace HastaneBilgiYonetimSistemi
         baglantı bgl = new baglantı();
         public int muhasebeid;
         public int tedarik_id;
+        int total = 0;
+        int degisenpara;
+        int kasadakiparalar;
         private void Muhasebe_Load(object sender, EventArgs e)
         {
+           
             pnl_Tedarikci.Visible = false;
             pnl_Malzeme.Visible=false;
             kasadakipara();
@@ -37,14 +41,15 @@ namespace HastaneBilgiYonetimSistemi
                 label13.Text = (oku["Ad Soyad"]).ToString();
             }
         }
-        void kasadakipara()
+       public void kasadakipara()
         {
             SqlCommand sorgulama = new SqlCommand($"select*from tbl_Kasa", bgl.bagla());
             SqlDataReader oku = sorgulama.ExecuteReader();
             if (oku.Read())
             {
 
-               label12.Text = oku[1].ToString();
+               kasadakiparalar = int.Parse(oku[1].ToString());
+                label12.Text = kasadakiparalar.ToString();
             }
            
         }
@@ -63,30 +68,44 @@ namespace HastaneBilgiYonetimSistemi
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
-            SqlCommand tedarikciEkle = new SqlCommand($"insert into tbl_Tedarikciler (T_Ad,T_Adres,T_Telefon) values ('{textBox2.Text}','{textBox1.Text}','{maskedTextBox1.Text.ToString()}')",bgl.bagla());
-     
-            int oldumu = tedarikciEkle.ExecuteNonQuery();
-            if (oldumu>0)
+            try
             {
-                MessageBox.Show("Oldu Kardeşim");
+
+                SqlCommand tedarikciEkle = new SqlCommand($"insert into tbl_Tedarikciler (T_Ad,T_Adres,T_Telefon) values ('{textBox2.Text}','{textBox1.Text}','{maskedTextBox1.Text.ToString()}')", bgl.bagla());
+
+                int oldumu = tedarikciEkle.ExecuteNonQuery();
+                if (oldumu > 0)
+                {
+                    MessageBox.Show("Oldu Kardeşim");
+                }
+                else
+                {
+                    MessageBox.Show("Olmadı Kardeşim");
+                }
+                bgl.bagla().Close();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Olmadı Kardeşim");
-            }
-            bgl.bagla().Close();
+
+                MessageBox.Show(ex.Message);            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SqlCommand guncelle = new SqlCommand($"update tbl_Tedarikciler set T_Ad='{textBox2.Text}',T_Adres='{textBox1.Text}',T_Telefon='{maskedTextBox1.Text}' where Tedarikci_id={tedarik_id}", bgl.bagla()); 
-            int oldumu = guncelle.ExecuteNonQuery();
-            if (oldumu>0)
+            try
             {
-                MessageBox.Show("Firma Güncellendi");
+                SqlCommand guncelle = new SqlCommand($"update tbl_Tedarikciler set T_Ad='{textBox2.Text}',T_Adres='{textBox1.Text}',T_Telefon='{maskedTextBox1.Text}' where Tedarikci_id={tedarik_id}", bgl.bagla());
+                int oldumu = guncelle.ExecuteNonQuery();
+                if (oldumu > 0)
+                {
+                    MessageBox.Show("Firma Güncellendi");
 
+                }
             }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);            }
         }
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
@@ -127,10 +146,12 @@ namespace HastaneBilgiYonetimSistemi
 
         private void button4_Click(object sender, EventArgs e)
         {//insert into tbl_Malzemeler (Tedarik_id,Adı,Adet,Ucret,Detay) values()
-         
+            total = int.Parse(maskedTextBox2.Text.Trim()) * int.Parse(maskedTextBox3.Text.Trim());
+            degisenpara = int.Parse(label12.Text.Trim()) - total;
+            label12.Text=degisenpara.ToString();
             try
             {
-                SqlCommand urunekle = new SqlCommand($"insert into tbl_Malzemeler (Tedarik_id,Adı,Adet,Ucret,Detay) values({tedarik_id},'{textBox5.Text}',{maskedTextBox2.Text},{float.Parse(textBox3.Text)},'{textBox4.Text}')", bgl.bagla()); 
+                SqlCommand urunekle = new SqlCommand($"insert into tbl_Malzemeler (Tedarik_id,Adı,Adet,Ucret,Detay) values({tedarik_id},'{textBox5.Text.Trim()}',{maskedTextBox2.Text.Trim()},{float.Parse(maskedTextBox3.Text.Trim())},'{textBox4.Text}')", bgl.bagla()); 
 
                 int oldumu = urunekle.ExecuteNonQuery();
                 if (oldumu > 0)
@@ -154,7 +175,7 @@ namespace HastaneBilgiYonetimSistemi
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             maskedTextBox2.Clear();
-            textBox3.Clear();
+            maskedTextBox3.Clear();
             textBox4.Clear();
             textBox5.Clear();
 
@@ -167,6 +188,47 @@ namespace HastaneBilgiYonetimSistemi
                 tedarik_id = int.Parse(oku[0].ToString());
             }
             bgl.bagla().Close();
+        }
+
+        private void maskedTextBox3_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void kasadandusenpara(object sender, EventArgs e)
+        {
+            if (total!=0)
+            {
+                SqlCommand urunodeme = new SqlCommand($"update tbl_Kasa set total={degisenpara}",bgl.bagla());
+                int i = urunodeme.ExecuteNonQuery();
+                if (i>0)
+                {
+                    MessageBox.Show($"Kasadan {total} TL ödeme yapılddı");
+                }
+                bgl.bagla().Close();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+          
+
+            int date = DateTime.Now.Date.DayOfYear;
+            if (date % 30 == 0)
+            {
+                SqlCommand maasode = new SqlCommand($"select Sum(Maas) as 'Maas' from tbl_Maas m inner join tbl_Personel t on m.Personel_id=t.Personel_id where t.Durum=1 group by Durum", bgl.bagla());
+                SqlDataReader sqlDataReader = maasode.ExecuteReader();
+                if (sqlDataReader.Read())
+                {
+                    kasadakiparalar -= int.Parse(sqlDataReader[0].ToString());
+                    label12.Text = kasadakiparalar.ToString();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Yalnızca 30. günü ödeme talimatı verilebilir");
+            }
+
         }
     }
 }

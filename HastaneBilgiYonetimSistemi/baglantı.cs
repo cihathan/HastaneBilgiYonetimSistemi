@@ -13,7 +13,7 @@ namespace HastaneBilgiYonetimSistemi
        public int genelid;
         public SqlConnection bagla()
         {
-
+            //Bağlantı ayarı buradan yapıldıgında kendı bılgısayarınızdan da erısebılırsınız
             SqlConnection baglan = new SqlConnection("Data Source=DESKTOP-QJ144O6\\SQLEXPRESS; Initial Catalog=MCI_Hospital;Integrated Security=True");
             baglan.Open();
             

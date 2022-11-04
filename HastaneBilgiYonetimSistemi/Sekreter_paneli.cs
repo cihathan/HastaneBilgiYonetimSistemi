@@ -91,39 +91,43 @@ namespace HastaneBilgiYonetimSistemi
         {
             try
             {
-                bgl.bagla();
-                SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
-                sorgulama.Parameters.AddWithValue("@tc", maskedTextBox1.Text);
-                SqlDataReader oku = sorgulama.ExecuteReader();              
-                if (oku.Read()==false)
+                if (textBox2.Text.Trim()!=String.Empty&&textBox4.Text.Trim()!=String.Empty&&comboBox1.Text!=String.Empty&&maskedTextBox3.Text.Length>=8&&maskedTextBox2.Text.Length==12&&comboBox4.Text!=String.Empty)
                 {
-
-                    SqlCommand kaydet = new SqlCommand($"insert into tbl_Hasta (Ad,Soyad,Cinsiyet,Tc,Doğum_Tarihi,Telefon,Ssk_Durum) Values ('{textBox2.Text}','{textBox4.Text}','{comboBox1.Text}','{maskedTextBox1.Text}','{maskedTextBox3.Text}','{maskedTextBox2.Text}','{comboBox4.Text}')", bgl.bagla());
-
-                    int eklendı = kaydet.ExecuteNonQuery();
-                    if (eklendı > 0)
+                    bgl.bagla();
+                    SqlCommand sorgulama = new SqlCommand($"select * from tbl_Hasta where Tc={maskedTextBox1.Text}", bgl.bagla());
+                    sorgulama.Parameters.AddWithValue("@tc", maskedTextBox1.Text);
+                    SqlDataReader oku = sorgulama.ExecuteReader();
+                    if (oku.Read() == false)
                     {
-                        MessageBox.Show("Hasta Eklendi");
+
+                        SqlCommand kaydet = new SqlCommand($"insert into tbl_Hasta (Ad,Soyad,Cinsiyet,Tc,Doğum_Tarihi,Telefon,Ssk_Durum) Values ('{textBox2.Text}','{textBox4.Text}','{comboBox1.Text}','{maskedTextBox1.Text}','{maskedTextBox3.Text}','{maskedTextBox2.Text}','{comboBox4.Text}')", bgl.bagla());
+
+                        int eklendı = kaydet.ExecuteNonQuery();
+                        if (eklendı > 0)
+                        {
+                            MessageBox.Show("Hasta Eklendi");
+                            panel1.Visible = true;
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bu Tc kayıtlıdır Güncelleme yapabilirsiniz");
+                        textBox2.Text = oku[1].ToString();
+                        textBox4.Text = oku[2].ToString();
+                        comboBox1.Text = oku[3].ToString();
+                        maskedTextBox3.Text = oku[5].ToString();
+                        maskedTextBox2.Text = oku[6].ToString();
+                        comboBox4.Text = oku[7].ToString();
+                        hasta_id = int.Parse(oku[0].ToString());
                         panel1.Visible = true;
 
                     }
+                    bgl.bagla().Close();
+                    Hastatcden_id();
 
                 }
-                else
-                {
-                    MessageBox.Show("Bu Tc kayıtlıdır Güncelleme yapabilirsiniz");
-                    textBox2.Text = oku[1].ToString();
-                    textBox4.Text = oku[2].ToString();
-                    comboBox1.Text = oku[3].ToString();
-                    maskedTextBox3.Text = oku[5].ToString();
-                    maskedTextBox2.Text = oku[6].ToString();
-                    comboBox4.Text = oku[7].ToString();
-                    hasta_id = int.Parse(oku[0].ToString());
-                    panel1.Visible = true;
-
-                }
-                bgl.bagla().Close();
-                Hastatcden_id();
+               
             }
             catch (Exception ex)
             {
@@ -154,7 +158,7 @@ namespace HastaneBilgiYonetimSistemi
 
             comboBox3.Items.Clear();
             comboBox3.Text = "";
-           SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where P_Görev = '{comboBox2.SelectedItem}'", bgl.bagla());
+           SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where P_Görev = '{comboBox2.SelectedItem}' and Durum=1", bgl.bagla());
           
             SqlDataReader dataReader;
 
@@ -249,14 +253,16 @@ namespace HastaneBilgiYonetimSistemi
                         maskedTextBox2.Text = oku[6].ToString();
                         comboBox4.Text = oku[7].ToString();
                         hasta_id = int.Parse(oku[0].ToString());
-
+                        button4.Visible= true;
                         panel1.Visible = true;
+                        button2.Visible = false;
 
                     }
                 
                
                     else
                     {
+                        button2.Visible = true;
                         MessageBox.Show("Kayıtlarda hasta bulunamadı");
                     }
                    
@@ -264,13 +270,14 @@ namespace HastaneBilgiYonetimSistemi
                 }
                 else if (maskedTextBox1.Text.Length < 11)
                 {
+                    button4.Visible = false;
                     textBox2.Clear();
                     textBox4.Clear();
                     comboBox1.Text = "";
                     maskedTextBox3.Clear();
                     maskedTextBox2.Clear();
                     comboBox4.Text = "";
-
+                    panel1.Visible = false;
                 }
                 bgl.bagla().Close();
                     
@@ -327,17 +334,42 @@ namespace HastaneBilgiYonetimSistemi
         private void button3_Click(object sender, EventArgs e)
         {
             //insert into tbl_Hasta (Ad,Soyad,Cinsiyet,Tc,Doğum_Tarihi,Telefon,Ssk_Durum) Values 
-            bgl.bagla();
-            SqlCommand eklerandevu = new SqlCommand($"insert into tbl_Randevular (Hasta_id,Doktor_id,R_Saat,R_Gun,Sikayet,Ucret) values ({hasta_id},{doktor_id},'{comboBox5.Text}','{maskedTextBox4.Text}','{textBox1.Text}',{float.Parse(maskedTextBox6.Text)})",bgl.bagla());
-
-            int eklendı = eklerandevu.ExecuteNonQuery();
-            if (eklendı > 0)
+            try
             {
-                MessageBox.Show("Hasta Eklendi");
-               
+                bgl.bagla();
+                SqlCommand eklerandevu = new SqlCommand($"insert into tbl_Randevular (Hasta_id,Doktor_id,R_Saat,R_Gun,Sikayet,Ucret) values ({hasta_id},{doktor_id},'{comboBox5.Text}','{maskedTextBox4.Text}','{textBox1.Text}',{float.Parse(maskedTextBox6.Text)})", bgl.bagla());
 
+                int eklendı = eklerandevu.ExecuteNonQuery();
+                if (eklendı > 0)
+                {
+                    MessageBox.Show("Hasta Eklendi");
+
+
+                }
+                bgl.bagla().Close();
+                if (maskedTextBox6.Text != String.Empty)
+                {
+
+                    SqlCommand sorgulama = new SqlCommand($"select*from tbl_Kasa", bgl.bagla());
+                    SqlDataReader oku = sorgulama.ExecuteReader();
+                    if (oku.Read())
+                    {
+
+                        int kasadakiparalar = int.Parse(oku[1].ToString());
+                        kasadakiparalar += int.Parse(maskedTextBox6.Text);
+                        SqlCommand urunodeme = new SqlCommand($"update tbl_Kasa set total={kasadakiparalar}", bgl.bagla());
+                        urunodeme.ExecuteNonQuery();
+
+
+                    }
+                    bgl.bagla().Close();
+                }
             }
-            bgl.bagla().Close();
+            catch (Exception)
+            {
+
+                MessageBox.Show("Boş Alan Bırakmayınız");   
+            }
 
         }
 

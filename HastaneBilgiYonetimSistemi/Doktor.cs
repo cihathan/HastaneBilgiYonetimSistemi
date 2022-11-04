@@ -18,6 +18,7 @@ namespace HastaneBilgiYonetimSistemi
     {
         baglantı bgl = new baglantı();
         public int kul_id;
+        public string tanı;
         public Doktor1()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace HastaneBilgiYonetimSistemi
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(komut);           
             da.Fill(dt);
-            SqlDataReader oku = komut.ExecuteReader();
+            SqlDataReader oku = komut.ExecuteReader();         
             {
                 if (oku.Read())
                 {
@@ -40,13 +41,16 @@ namespace HastaneBilgiYonetimSistemi
                     
                 }
             }
+            dateTimePicker1.Equals(DateTime.Now);
             bgl.bagla().Close();
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            tanı = "bugun";
             dataGridView1.Visible = true;
+            label4.Visible = true;
             goster();
         }
         private void goster()
@@ -68,29 +72,38 @@ namespace HastaneBilgiYonetimSistemi
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Visible = false;
-
-        }
-
-
+  
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
-            randevuid = int.Parse(dataGridView1.CurrentRow.Cells["Randevu_id"].Value.ToString());
-            hastaid= int.Parse(dataGridView1.CurrentRow.Cells["Hasta_id"].Value.ToString());
-            dataGridView1.Visible = false;
-            panel1.Visible = true;
 
-            panel2guncelle();
+            if (tanı!="tık")
+            {
+                try
+                {
+                    randevuid = int.Parse(dataGridView1.CurrentRow.Cells["Randevu_id"].Value.ToString());
+                    hastaid = int.Parse(dataGridView1.CurrentRow.Cells["Hasta_id"].Value.ToString());
+                    dataGridView1.Visible = false;
+                    panel1.Visible = true;
+
+                    panel2guncelle();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bu Alanda Düzenleme Yapamazsınız");
+            }
 
 
         }
         void panel2guncelle()
         {
 
-            SqlCommand sqlData = new SqlCommand($"select p.P_Ad+ ' '+ p.P_Soyad as 'Doktor Ad Soyad',ha.Ad+' '+ha.Soyad as 'Hasta Ad Soyad',ra.R_Gun as 'Randevu Tarihi',Acıklama from tbl_Receteler re  inner join tbl_Randevular ra on ra.Randevu_id=re.Randevu_id inner join tbl_Hasta ha on ha.Hasta_id=ra.Hasta_id inner join tbl_Personel p on p.Personel_id=Doktor_id where ha.Hasta_id={hastaid}", bgl.bagla());
+            SqlCommand sqlData = new SqlCommand($"select ha.Hasta_id,p.P_Ad+ ' '+ p.P_Soyad as 'Doktor Ad Soyad',ha.Ad+' '+ha.Soyad as 'Hasta Ad Soyad',ra.R_Gun as 'Randevu Tarihi',Acıklama from tbl_Receteler re  inner join tbl_Randevular ra on ra.Randevu_id=re.Randevu_id inner join tbl_Hasta ha on ha.Hasta_id=ra.Hasta_id inner join tbl_Personel p on p.Personel_id=Doktor_id where ha.Hasta_id={hastaid}", bgl.bagla());
             DataTable dataTable = new DataTable();
             SqlDataAdapter sd = new SqlDataAdapter(sqlData);
             sd.Fill(dataTable);
@@ -124,7 +137,8 @@ namespace HastaneBilgiYonetimSistemi
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {
+        {label4.Visible = false;
+            tanı = "tık";
             panel1.Visible = false;
             dataGridView1.Visible = true;
             SqlCommand sqlData = new SqlCommand($"select re.Randevu_id,ha.Tc,ha.Ad+ ' '+ha.Soyad as 'Ad Soyad',re.Acıklama from tbl_Receteler re inner join tbl_Randevular ra on ra.Randevu_id=re.Randevu_id inner join tbl_Hasta ha on ra.Hasta_id=ha.Hasta_id where Doktor_id={kul_id}", bgl.bagla());
@@ -153,21 +167,25 @@ namespace HastaneBilgiYonetimSistemi
             }
             else
             {
-                MessageBox.Show("Guncellenmedi");
+                MessageBox.Show("Önce Ekleme Yapmalısınız");
             }
             bgl.bagla().Close();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            SqlCommand sqlData = new SqlCommand($"select   r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} ", bgl.bagla());
+            dataGridView1.Visible = true;
+            tanı = "tum";
+            SqlCommand sqlData = new SqlCommand($"select  h.Hasta_id, r.Randevu_id,h.Tc,h.Ad + ' ' + h.Soyad as 'Ad Soyad',h.Cinsiyet,r.Sikayet,r.R_Saat from tbl_Randevular r inner join tbl_Hasta h on r.Hasta_id=h.Hasta_id inner join tbl_Personel p on p.Personel_id=r.Doktor_id where p.Personel_id={kul_id} ", bgl.bagla());
             DataTable dataTable = new DataTable();
             SqlDataAdapter sd = new SqlDataAdapter(sqlData);
             sd.Fill(dataTable);
             sqlData.ExecuteNonQuery();
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["Randevu_id"].Visible = false;
-                  
+            dataGridView1.Columns["Hasta_id"].Visible = false;
+
+
 
             bgl.bagla().Close();
         }
@@ -184,6 +202,11 @@ namespace HastaneBilgiYonetimSistemi
         
           
          
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

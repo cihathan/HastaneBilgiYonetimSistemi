@@ -46,6 +46,8 @@ namespace HastaneBilgiYonetimSistemi
                 da.Fill(dt);
                 if (dt.Rows.Count > 0)
                 {
+                    textBox1.Clear();
+                    textBox2.Clear();
                     Yonetici_paneli pnelyonetici = new Yonetici_paneli();
                     Doktor1 doktor = new Doktor1();
                     Sekreter_paneli sekreter_Paneli = new Sekreter_paneli();
@@ -77,7 +79,7 @@ namespace HastaneBilgiYonetimSistemi
                                     pnelyonetici.kul_id1 = id;
                                     pnelyonetici.Visible = true;
                                     this.Hide(); break; //Yönetim giriş paneli
-                                default:
+                                default: MessageBox.Show("Giriş Yetkniz Yoktur");
                                    
                                     break;
                             }

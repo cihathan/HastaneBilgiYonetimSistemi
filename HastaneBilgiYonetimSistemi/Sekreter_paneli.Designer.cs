@@ -183,6 +183,7 @@
             this.button2.TabIndex = 15;
             this.button2.Text = "Hasta Oluştur";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // panel1
@@ -539,6 +540,7 @@
             this.button4.TabIndex = 18;
             this.button4.Text = "Güncelle";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // maskedTextBox1
@@ -605,6 +607,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.PaleTurquoise;
             this.ClientSize = new System.Drawing.Size(878, 585);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label13);
@@ -629,7 +632,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Sekreter_paneli";
-            this.Text = "Sekreter_paneli";
+            this.Text = "Sekreter";
             this.Load += new System.EventHandler(this.Sekreter_paneli_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -48,14 +48,22 @@ namespace HastaneBilgiYonetimSistemi
                         maskedTextBox3.Text = oku[7].ToString();
                         textBox4.Text = oku[8].ToString();//adres
                         textBox5.Text = oku[9].ToString();//Sifre
+                        Pidler();
                         btn_Personel_Ekle.Enabled = false;
+                        button1.Enabled = true;
                         switch (yetki)
                         {
+                            case 0: comboBox3.SelectedIndex = 4; break;
                             case 1: comboBox3.SelectedIndex = 1; break;
+                            case 2: comboBox3.SelectedIndex = 2; break;
+                            case 3: comboBox3.SelectedIndex = 3; break;
+                            case 4: comboBox3.SelectedIndex = 0; break;
+                            case 5: comboBox3.SelectedIndex = 5; break;
+
                             default:
                                 break;
                         }
-
+                        button7.Enabled = true;
 
 
                         //  panel1.Visible = true;
@@ -72,6 +80,9 @@ namespace HastaneBilgiYonetimSistemi
                     textBox5.Clear();
                     textBox4.Clear();
                     btn_Personel_Ekle.Enabled = true;
+                    button7.Enabled = false;
+                    button1.Enabled=false;
+
                     //****************************cb3 silinmeme
 
                     //comboBox4.Text = "";
@@ -88,12 +99,10 @@ namespace HastaneBilgiYonetimSistemi
 
         private void yonetici_paneli_Load(object sender, EventArgs e)
         {
+            dataGridView1.Visible = false;
             panel_personel.Visible = false;
             panel2.Visible = false;
             SqlCommand komut = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel where Personel_id={kul_id1}", bgl.bagla());
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(komut);
-            da.Fill(dt);
             SqlDataReader oku = komut.ExecuteReader();
             {
                 if (oku.Read())
@@ -103,53 +112,34 @@ namespace HastaneBilgiYonetimSistemi
                 }
             }
             bgl.bagla().Close();
+            this.Text = "Yönetici " + label13.Text;
         }
 
         private void button7_Click(object sender, EventArgs e) //Silme
-        {
-            //try
-            //{//
-            //    SqlCommand komut = new SqlCommand($"select * from tbl_Maas where Personel_id='{personelid}'", bgl.bagla());
+        {/////****************
+            SqlCommand aktpsf = new SqlCommand($"select*from tbl_Personel where Personel_id='{label16.Text}'", bgl.bagla());
+            SqlDataReader dr=aktpsf.ExecuteReader();
+            if (dr.Read())
+            {
+                int atama =int.Parse(dr["Durum"].ToString());
+                MessageBox.Show(atama.ToString());
+                if (atama==1)
+                {
+                    SqlCommand gnclaktfpsf = new SqlCommand($"update tbl_Personel set Durum={0} where Personel_id='{label16.Text}'", bgl.bagla());
+                    gnclaktfpsf.ExecuteNonQuery();
+                    MessageBox.Show("Pasif Hale geldi");
+                }
+                else
+                {
+                    SqlCommand gnclaktfpsf = new SqlCommand($"update tbl_Personel set Durum={1} where Personel_id='{label16.Text}'", bgl.bagla());
+                    gnclaktfpsf.ExecuteNonQuery();
+                    MessageBox.Show("Akitf Hale Geldi");
+                }
+                bgl.bagla().Close();
 
-            //    SqlDataReader oku = komut.ExecuteReader();
+            }
+            
 
-            //        if (oku.Read())
-            //        {
-            //            silid = int.Parse((oku[0]).ToString());
-
-            //        }
-
-            //    bgl.bagla().Close();
-
-            //    SqlCommand sil1 = new SqlCommand($"delete from tbl_Maas where Maas_id={silid}", bgl.bagla());
-            //    bgl.bagla().Close();
-            //    SqlCommand sil = new SqlCommand($"delete from tbl_Personel where Personel_id='{personelid}'", bgl.bagla());
-            //    int ok = sil.ExecuteNonQuery();
-            //    int ok2 = sil1.ExecuteNonQuery();
-            //    if (ok > 0 && ok2 > 0)
-            //    {
-            //        MessageBox.Show("Personel Silindi");
-            //        textBox2.Clear();
-            //        textBox3.Clear();
-            //        comboBox2.Text = "";
-            //        maskedTextBox2.Clear();
-            //        maskedTextBox3.Clear();
-            //        textBox5.Clear();
-            //        textBox4.Clear();
-            //        btn_Personel_Ekle.Enabled = true;
-            //        maskedTextBox1.Clear();
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Personel Silinemedi");
-            //    }
-            //    bgl.bagla().Close();
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    MessageBox.Show(ex.Message);
-            //}
 
         }
 
@@ -170,14 +160,13 @@ namespace HastaneBilgiYonetimSistemi
                     if (eklendi > 0)
                     {
                         MessageBox.Show("Personel Eklendi");
+                        Pidler();
                     }
                     else
                     {
                         MessageBox.Show("Personel Kayıtlı");
                     }
                     bgl.bagla().Close();
-
-
                 }
                 else
                 {
@@ -188,12 +177,21 @@ namespace HastaneBilgiYonetimSistemi
             {
                 MessageBox.Show(ex.Message);
             }
-
-
-
-
         }
-
+        public void Pidler()
+        {
+            SqlCommand prnslıd = new SqlCommand($"select*from tbl_Personel where P_TC='{maskedTextBox1.Text}'", bgl.bagla());
+            SqlDataReader dr = prnslıd.ExecuteReader();
+            if (dr.Read())
+            {
+                label16.Text = dr["Personel_id"].ToString();
+                button7.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("IT departmanına başvurunuz.");
+            }
+        }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -205,22 +203,13 @@ namespace HastaneBilgiYonetimSistemi
             maskedTextBox4.Clear();
             panel_personel.Visible = false;
             panel2.Visible = true;
+            dataGridView1.Visible = false;
 
 
 
 
-            bgl.bagla();
-            SqlCommand sorgulama = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel p", bgl.bagla());
-            SqlDataReader dataReader;
-
-            dataReader = sorgulama.ExecuteReader();
-            while (dataReader.Read())
-            {
-                comboBox1.Items.Add(dataReader["Ad Soyad"]);
-            }
 
 
-            bgl.bagla().Close();
 
 
         }
@@ -305,11 +294,7 @@ namespace HastaneBilgiYonetimSistemi
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            panel2.Visible = false;
-            panel_personel.Visible = true;
-        }
+       
 
         private void comboBox3_Click(object sender, EventArgs e)
         {
@@ -351,6 +336,71 @@ namespace HastaneBilgiYonetimSistemi
                 comboBox2.Items.Add(dataReader["P_Görev"]);
             }
             bgl.bagla().Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SqlCommand prslgnclle = new SqlCommand($"update tbl_Personel set P_Ad='{textBox2.Text}' ,P_Soyad='{textBox3.Text}', P_Adres='{textBox4.Text}',P_Görev='{comboBox2.Text}',P_Telefon='{maskedTextBox2.Text}',sifre={textBox5.Text} where Personel_id='{label16.Text}'",bgl.bagla());
+            int deneme = prslgnclle.ExecuteNonQuery();
+            if (deneme>0)
+            {
+                MessageBox.Show("Güncellendi.");
+            }
+            else
+            {
+                MessageBox.Show("Güncelleme Başarısız.");
+            }
+            bgl.bagla().Close();
+
+        }
+
+        private void comboBox1_Click(object sender, EventArgs e)
+        {
+            bgl.bagla();
+            SqlCommand sorgulama = new SqlCommand($"select P_Ad+' '+P_Soyad as 'Ad Soyad' from tbl_Personel p where Durum={1}", bgl.bagla());
+            SqlDataReader dataReader;
+
+            dataReader = sorgulama.ExecuteReader();
+            while (dataReader.Read())
+            {
+                comboBox1.Items.Add(dataReader["Ad Soyad"]);
+            }
+
+
+            bgl.bagla().Close();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            panel2.Visible = false;
+            panel_personel.Visible = false;
+            dataGridView1.Visible = true;
+
+            try
+            {
+                bgl.bagla();
+                SqlCommand sqlData = new SqlCommand($"select top 3 p.P_Ad+' '+p.P_Soyad as 'Ad Soyad',P_Görev as 'Poliklinik',COUNT(r.Randevu_id) as 'Toplam Hasta' from tbl_Personel p inner join tbl_Randevular r on r.Doktor_id=p.Personel_id where Doktor_id>0 group by P_Ad,P_Soyad,P_Görev order by [Toplam Hasta] desc", bgl.bagla());
+                DataTable dataTable = new DataTable();
+                SqlDataAdapter sd = new SqlDataAdapter(sqlData);
+                sd.Fill(dataTable);
+                sqlData.ExecuteNonQuery();
+                dataGridView1.DataSource = dataTable;
+                bgl.bagla().Close();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);    
+            }
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            dataGridView1.Visible = false;
+            panel2.Visible = false;
+            panel_personel.Visible = true;
+
         }
     }
 }
