@@ -117,7 +117,57 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        rgAAAK4B+ff3XQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANYSURBVEhLrZVL
+        TxNRHMVZufEbuHXpQuMHcOHORHwu3RsVFUERRJFnSEDQaIOBCoryalAQKCAgD9uKRATTllSxFKXUSp8z
+        7fRFO5Xjndvp2AeGVj3JSd/nN3Pu/97m7CSN1tis1hoh2m4wGHaJH/2b3uq/HFHrjL0k1JEAgEprHFLp
+        jDXi1zIT1KcOQn3CT4y4lz/0SKGp1miX6Xe48WNzjsFcEG85B4+Wi3HpgurkGeEHEVMnwmYltXN1Chaj
+        enuvqMFZF8BYP4ddFj2cM4UCRCnGpSsOCHp+IBAIZGS32w2Hw0HtWmzKHMD5fWiYHUa16iV1h1aTFaCh
+        tetQfYtiLw2OKxHg8rI4N/IEV8Y7MWlawq3pXhro8IRgcYclm50hbDjYJIDsWe/hhkfdW8ShennXATE+
+        HVD0uhs/yGM7ufo4gOFCBLJJ7Q8E0+7Apjw9MrdmNfSr5y2NrQr+rrx7nxifDGA4L72Dy2MdODvchipV
+        PwVw/iBYAhHs96dX5H1YuGJ5PmieN1v5qU8r98TomFIX2e5hsO6yU7s5D30v1YkAZuYB+LLqLT6vCJ4m
+        uV5ns+0Wo2NKBWRiCWC3I/ygHvylYkRLKxGtrMkVY38rEeDxcSggCyzUI1iYKCFQ6N3rC1ALdcUB3NQM
+        osUViF4pRbSitkeMTFbqIueNttOFVq8tS4vs8pKpYcLUNjZMAa5va+Br7oC/cA18RRWPiro9YmSyUgFX
+        J7roFMkXp7cF+MQ7CD7tQjT/BqIl5fC1nNeJcelKrahkUoFCAsknk3R/7lVSRRyx8JqbXyCdV4G/XIJN
+        WR3ZB8f+31ERZFlE7twn1RSRamrBqmTZnUU21i2NqVBZKiA8MAy+8Cb4ojL4RsayO4tiG+0xnaACUlPl
+        m76k8KBplcx8Dfi86wjfa4LTZssOIFzxtYlutH18A71tXVpkap8PvKwZ/EVSTVk1GP2StJOzAlwYfQLV
+        2mfcJlefCLAuGcCV19J6gn0D0k7OCiAc17L343SDCe7RzUqAXuUEahubYep5AWZj4+8A8bDt3CjvQJti
+        AG6GTTqLMgZEvrQi8lXxR89NtmNzNfbcb9HA810bcps/kL/M/B0AmpP7CcAjQLIxN3b8HQkWwn86hnJL
+        xbgE5eT8AoCplGZHmV16AAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="button3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        rgAAAK4B+ff3XQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAF8SURBVEhLxZVN
+        SwJRFIZd9LsqLAgiQqNF0LKlWysoqMBw0YeTRG1s4UKjInAWjUKLhCiiqAjaZKtAEIs2keN8JJzOgVvd
+        5ur1jiEdeFbzvu8DdzMB/kLae39YM58RaEdct2+XitDDqmoX1mr7zcaasVN0IWE4JV8SLOreoVaQYPcc
+        JXkfEiz6FviSYLEjAaHlnce2EiwqC5IF55eASBh1uQSLyoLJLRPmMi+wkKn8kK1AZLt8yObEw6Ky4Ivh
+        2BMEoxffDMxcHbM58bDgW0CMxCsQnL7snoAYXXmFwdmb7gmI0PobDC0+FNiceBj6k4Chsznx6CMfTp04
+        YLkghTJ8B1EXjCdNmNiUQxm+g6gLVo9suC83pFCG7yDqgqlUHeYPLCmU4TuIuoAGcteuFMrwHURdEM1a
+        kD51pVCG7yDqgki6DmuGLbCsC+/Ooy6I5Ww4KzUEjLsPftCLuqBD/lWg/tNvRUir7bE58cIJqw9DVW/J
+        B9WxDauXzeEFAp9rQLaNCYC1bQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="button5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        rgAAAK4B+ff3XQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHuSURBVEhLY8AG
+        2NjYdBUUFB7p6em9IIS1NbVfiYmKvQRqE4PoJgyUBAQENm3fuv3/+7fvCeLbN2//19XR+6+qovoCqJeg
+        JfIqcgxPA115/u/dsxergegYZIG3h/f/6RNnAC1Rw22JkKRSn5yOxduUKJHfdTnCRFvw6MGj/w52jv+3
+        rt0GtgQYZB+BxmFaIiKndrV87a3/ydGS/3fNl/5/8/pNrAZiw7nZuf8tzCzAWF1N/b+6usYtqLEIICav
+        cQVmwcElMmCvYzOMEL5x8fp/fT29x1BjEQDZAlKCCB2TbMGlC5f+9/f1E8SwVEeyBbdu3vo/f958gvjI
+        oSPkWUAqJtmCPbv3/HewdyCIu7u6ybOAVEzQgiQ0C54+fvp//779BPH1q9fJs+DEsRP/C/ILCOLFixaT
+        ZwGpeOAsCKmc2U9TCwxcIjYO7SBCtqAhT+j/7p27sRpACIMs0NXRxW/B4SWs/23MVf8nxPiQhGMj/f+7
+        OLn8BFY6U6HGIgDIgpqtT/57uon//3eF6f+7w4z/b20kDdubMHwFGqUDMRENiMiqXuk8/ue/a1rZf2N7
+        o/+mjsZ4cWFX7v+0miQwW9NI47+UJOcLJSmGTqhxmEBAUr5ITEHzubS60UtpDZPXpGBhWbWnbNzculCj
+        kAADAwDoJQPooduhZAAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>
